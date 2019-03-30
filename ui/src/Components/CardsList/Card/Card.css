@@ -1,0 +1,64 @@
+.box {
+    background-color: #ddd;
+    width: 400px;
+    height: 200px;
+    border: 5px solid #555;
+    text-align:center;
+    position: relative;
+    margin: 20px;
+    border-radius: 5px;
+    left:50%;
+    }
+.App > :last-child {
+     box-shadow: 2px 2px 40px blue;
+  }
+  
+  .header {
+    border-bottom: 1px solid blue;
+
+    }
+  
+  .responsebox {
+    /* #background-color: #ff00ff; */
+    width:100%;
+    position:absolute;
+    bottom: 0;
+  }
+  .responsebox > :first-child{
+   /* # border:  solid blue;
+   # border-width: 1px 0px 0px 0px; */
+  }
+  
+  a{
+    text-decoration:none
+  }
+  .response{
+    box-sizing:border-box;
+    float:left;
+    background-color:#ffffff;
+    border-radius:  180px;
+    font-size: 180%;
+    width:45%;
+    text-align:center;
+    padding: 5px 5px 5px 5px;
+    margin: 5px;
+    /* border:  solid blue; */
+    border-width: 10px 0px 0px 1px;
+    transition: box-shadow;
+  }
+  .response:hover{
+    background-color: #cccccc;
+    box-shadow: 0px 2px blue;
+  }
+  
+  .response:active{
+    box-shadow: 0px 0px red;
+    position: relative;
+    color:"yellow";
+    top: 2px;
+      
+  }
+
+  .margins{
+    margin:0px 5px 0px 5px;
+  }
