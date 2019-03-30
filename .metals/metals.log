@@ -1,0 +1,12 @@
+The server is listening for incoming connections at local:///tmp/bsp3401943367304101550/-1ewkgthkv2uzn.socket...
+Accepted incoming BSP client connection at local:///tmp/bsp3401943367304101550/-1ewkgthkv2uzn.socket
+request received: build/initialize
+BSP initialization handshake complete.
+and outgoing JSON messages create an empty file at /home/vder/.cache/metals/bsp.trace.json
+INFO  time: connected to build server in 9.32s
+INFO  time: imported build in 0.83s
+INFO  time: indexed workspace in 10s
+INFO  compiling root (15 scala sources and 1 java source)
+INFO  Non-compiled module 'compiler-bridge_2.12' for Scala 2.12.8. Compiling...
+INFO    Compilation completed in 20.08s.
+INFO  time: compiled root in 36s

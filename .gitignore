@@ -5,4 +5,7 @@ target
 /.classpath
 /.project
 /.settings
+/.bloop
+/.gradle
 /RUNNING_PID
+
