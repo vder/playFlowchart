@@ -6,7 +6,7 @@
     text-align:center;
     position: relative;
     margin: 20px;
-    border-radius: 5px;
+    border-radius: 20px;
     left:50%;
     }
 .App > :last-child {
@@ -15,6 +15,7 @@
   
   .header {
     border-bottom: 1px solid blue;
+    font-size:120%
 
     }
   

@@ -6,7 +6,9 @@ import models.{
   FlowchartRepository,
   PersonRepository,
   FlowBlockRepository,
-  FlowResponse
+  FlowResponse,
+  FlowBlock,
+  Flow
 }
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
@@ -54,15 +56,34 @@ class HomeController @Inject()(
       flowchartRepo.findById(id).map(x => Ok(Json.toJson(x)))
   }
 
+  def createFlowResponse(
+                          in: Seq[(FlowBlock, Option[Flow])]
+                        ): FlowResponse = {
+    val (flowBlockSeq, flowSeq) = in.unzip
+
+    val finalFlow = flowSeq
+      .filter({
+        case None => false
+        case Some(_) => true
+      })
+      .map({ case Some(x) => x })
+    FlowResponse(
+      flowBlockSeq.head.id,
+      flowBlockSeq.head.question,
+      finalFlow.toList
+    )
+
+
+  }
+
   def getFlowBlock(id: Long) = Action.async {
     implicit request: Request[AnyContent] =>
       flowBlockRepo
         .findById(id)
         .map(x => {
-          val (z1, z2) = x.unzip
-          if (!z1.isEmpty)
+          if (!x.isEmpty)
             Ok(
-              Json.toJson(FlowResponse(z1.head.id, z1.head.question, z2.toList))
+              Json.toJson(createFlowResponse(x))
             )
           //              .withHeaders(
           //              "Access-Control-Allow-Origin" -> "*"

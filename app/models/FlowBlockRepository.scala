@@ -30,8 +30,9 @@ class FlowBlockRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(im
   def list(): Future[Seq[(FlowBlock,Flow)]] = db.run {
     ( flowBlocks join flows on ( _.id === _.block) ).result
   }
-  def findById(id:Long):Future[Seq[(FlowBlock,Flow)]] = db.run {
-    ( flowBlocks.filter(_.id === id) join flows on ( _.id === _.block) ).result
+
+  def findById(id: Long): Future[Seq[(FlowBlock, Option[Flow])]] = db.run {
+    (flowBlocks.filter(_.id === id) joinLeft flows on (_.id === _.block)).result
   }
 
 }

@@ -13,33 +13,26 @@ class App extends Component {
     cards: []
   }
 
-  ref = React.createRef();
-
-  scrollToBottom = () => {
-		this.scrollTop = 100;
-	};
-
-  componentDidUpdate(){
-    window.scroll(0,500*this.state.cards.length)
+  componentDidUpdate() {
+    window.scroll(0, 500 * this.state.cards.length)
   }
   componentDidMount() {
     axios.get("http://localhost:9000/flow/1").then(response => {
-      
       this.setState({ cards: [response.data] })
-   
     })
   }
 
-  responseClickHandler = (id) => {
+  responseClickHandler = (currId,nextId) => {
 
-    axios.get(`http://localhost:9000/flow/${id}`).then(response => {
+    axios.get(`http://localhost:9000/flow/${nextId}`).then(response => {
       console.log(response)
-      const results = [...this.state.cards]
+      const results = [...this.state.cards].slice(0,currId)
+      console.log("results:"+currId)
+      console.log(results)
       if (response.data !== "") {
-      results.push(response.data)
-      this.setState({ cards: results })
-      this.scrollToBottom()
-      console.log(this.state.cards)
+        results.push(response.data)
+        this.setState({ cards: results })
+        console.log(this.state.cards)
       }
     })
 
