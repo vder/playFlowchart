@@ -1,6 +1,6 @@
 package controllers
 
-import models.{Flow, FlowResponse}
+import models.{Flow, FlowResponse, Flowchart}
 import org.scalatestplus.play._
 import org.scalatestplus.play.guice._
 import play.api.libs.json.Json
@@ -18,10 +18,10 @@ class HomeControllerSpec
     with GuiceOneAppPerTest
     with Injecting {
 
-  "HomeController GET" should {
+  "HomeController GET /api/flow/" should {
 
-    "return Json contentType" when {
-      "I go to the route /api/flows/1" in {
+    "return valid Json response" when {
+      "I go to the route /api/flow/1" in {
         val result = route(
           app,
           FakeRequest(controllers.routes.HomeController.getFlowBlock(1))
@@ -38,23 +38,42 @@ class HomeControllerSpec
         )
       }
     }
-    "return exact Json" when {
-      "I go to the route /api/flows/1" in {
+    "return Json without Flow" when {
+      "I go to the route /api/flow/14" in {
         val result = route(
           app,
-          FakeRequest(controllers.routes.HomeController.getFlowBlock(1))
+          FakeRequest(controllers.routes.HomeController.getFlowBlock(14))
         )
         contentAsJson(result.get) must be(
           Json.toJson(
-            FlowResponse(
-              1,
-              "Reassessment possible?",
-              List(Flow(1, 1, "No", 2), Flow(2, 1, "Yes", 6))
-            )
+            FlowResponse(14, "WOI Muslim at highest DRM", List())
           )
         )
       }
     }
+    "return empty response" when {
+      "I go to the route /api/flow/30" in {
+        val result = route(
+          app,
+          FakeRequest(controllers.routes.HomeController.getFlowBlock(30))
+        )
+        status(result.get) must be(OK)
+        contentAsString(result.get) must be(empty)
+      }
+    }
+  }
 
+  "HomeController GET /api/flows/" should {
+    "return valid flow for id = 1" in {
+      val result = route(
+        app,
+        FakeRequest(controllers.routes.HomeController.getFlow(1))
+      )
+      contentAsJson(result.get) must be(
+        Json.toJson(
+          Flowchart(1, "Post-Alert Resolution Flowchart", "US", 1)
+        )
+      )
+    }
   }
 }

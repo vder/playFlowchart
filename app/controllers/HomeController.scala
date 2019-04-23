@@ -21,12 +21,12 @@ import scala.concurrent.ExecutionContext
   */
 @Singleton
 class HomeController @Inject()(
-                                repo: PersonRepository,
-                                flowchartRepo: FlowchartRepository,
-                                flowBlockRepo: FlowBlockRepository,
-                                cc: MessagesControllerComponents
-                              )(implicit ec: ExecutionContext)
-  extends MessagesAbstractController(cc) {
+    repo: PersonRepository,
+    flowchartRepo: FlowchartRepository,
+    flowBlockRepo: FlowBlockRepository,
+    cc: MessagesControllerComponents
+)(implicit ec: ExecutionContext)
+    extends MessagesAbstractController(cc) {
 
   /**
     * Create an Action to render an HTML page.
@@ -43,11 +43,12 @@ class HomeController @Inject()(
     Ok(views.html.hello(name))
   }
 
-  def getPersons = Action.async { implicit request: Request[AnyContent] => {
-    repo.list().map { people =>
-      Ok(Json.toJson(people))
+  def getPersons = Action.async { implicit request: Request[AnyContent] =>
+    {
+      repo.list().map { people =>
+        Ok(Json.toJson(people))
+      }
     }
-  }
 
   }
 
@@ -57,22 +58,23 @@ class HomeController @Inject()(
   }
 
   def createFlowResponse(
-                          in: Seq[(FlowBlock, Option[Flow])]
-                        ): FlowResponse = {
+      in: Seq[(FlowBlock, Option[Flow])]
+  ): FlowResponse = {
     val (flowBlockSeq, flowSeq) = in.unzip
 
     val finalFlow = flowSeq
       .filter({
-        case None => false
+        case None    => false
         case Some(_) => true
       })
-      .map({ case Some(x) => x })
+      .map({
+        case Some(x) => x
+      })
     FlowResponse(
       flowBlockSeq.head.id,
       flowBlockSeq.head.question,
       finalFlow.toList
     )
-
 
   }
 
