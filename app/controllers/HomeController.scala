@@ -1,15 +1,8 @@
 package controllers
 
 import javax.inject._
-import models.{
-  Flowchart,
-  FlowchartRepository,
-  PersonRepository,
-  FlowBlockRepository,
-  FlowResponse,
-  FlowBlock,
-  Flow
-}
+import models.{Flow, FlowBlock, FlowBlockRepository, FlowResponse, Flowchart, FlowchartRepository, PersonRepository}
+import play.api.Logging
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
 
@@ -26,7 +19,7 @@ class HomeController @Inject()(
     flowBlockRepo: FlowBlockRepository,
     cc: MessagesControllerComponents
 )(implicit ec: ExecutionContext)
-    extends MessagesAbstractController(cc) {
+    extends MessagesAbstractController(cc) with Logging {
 
   /**
     * Create an Action to render an HTML page.
@@ -60,6 +53,7 @@ class HomeController @Inject()(
   def createFlowResponse(
       in: Seq[(FlowBlock, Option[Flow])]
   ): FlowResponse = {
+    logger.info("jakiś moj logger")
     val (flowBlockSeq, flowSeq) = in.unzip
 
     val finalFlow = flowSeq
