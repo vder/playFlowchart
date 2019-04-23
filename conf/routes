@@ -11,6 +11,6 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 GET     /hello      controllers.HomeController.hello(name: String ?= "Piotr")
 
-GET     /flows/:id      controllers.HomeController.getFlow(id:Long)
+GET     /api/flows/:id      controllers.HomeController.getFlow(id:Long)
 
-GET     /flow/:id      controllers.HomeController.getFlowBlock(id:Long)
+GET     /api/flow/:id      controllers.HomeController.getFlowBlock(id:Long)

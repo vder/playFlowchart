@@ -1,45 +1,60 @@
 package controllers
 
+import models.{Flow, FlowResponse}
 import org.scalatestplus.play._
 import org.scalatestplus.play.guice._
-import play.api.test._
+import play.api.libs.json.Json
 import play.api.test.Helpers._
+import play.api.test._
 
 /**
- * Add your spec here.
- * You can mock out a whole application including requests, plugins etc.
- *
- * For more information, see https://www.playframework.com/documentation/latest/ScalaTestingWithScalaTest
- */
-class HomeControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting {
+  * Add your spec here.
+  * You can mock out a whole application including requests, plugins etc.
+  *
+  * For more information, see https://www.playframework.com/documentation/latest/ScalaTestingWithScalaTest
+  */
+class HomeControllerSpec
+    extends PlaySpec
+    with GuiceOneAppPerTest
+    with Injecting {
 
   "HomeController GET" should {
 
-    "render the index page from a new instance of controller" in {
-      val controller = new HomeController(stubControllerComponents())
-      val home = controller.index().apply(FakeRequest(GET, "/"))
-
-      status(home) mustBe OK
-      contentType(home) mustBe Some("text/html")
-      contentAsString(home) must include ("Welcome to Play")
+    "return Json contentType" when {
+      "I go to the route /api/flows/1" in {
+        val result = route(
+          app,
+          FakeRequest(controllers.routes.HomeController.getFlowBlock(1))
+        )
+        contentType(result.get) must be(Some("application/json"))
+        contentAsJson(result.get) must be(
+          Json.toJson(
+            FlowResponse(
+              1,
+              "Reassessment possible?",
+              List(Flow(1, 1, "No", 2), Flow(2, 1, "Yes", 6))
+            )
+          )
+        )
+      }
+    }
+    "return exact Json" when {
+      "I go to the route /api/flows/1" in {
+        val result = route(
+          app,
+          FakeRequest(controllers.routes.HomeController.getFlowBlock(1))
+        )
+        contentAsJson(result.get) must be(
+          Json.toJson(
+            FlowResponse(
+              1,
+              "Reassessment possible?",
+              List(Flow(1, 1, "No", 2), Flow(2, 1, "Yes", 6))
+            )
+          )
+        )
+      }
     }
 
-    "render the index page from the application" in {
-      val controller = inject[HomeController]
-      val home = controller.index().apply(FakeRequest(GET, "/"))
-
-      status(home) mustBe OK
-      contentType(home) mustBe Some("text/html")
-      contentAsString(home) must include ("Welcome to Play")
-    }
-
-    "render the index page from the router" in {
-      val request = FakeRequest(GET, "/")
-      val home = route(app, request).get
-
-      status(home) mustBe OK
-      contentType(home) mustBe Some("text/html")
-      contentAsString(home) must include ("Welcome to Play")
-    }
   }
 }
